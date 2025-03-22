@@ -1,0 +1,7 @@
+{
+  "app": "cd cdk && npx ts-node --prefer-ts-exts bin/brewnotes-app.ts",
+  "context": {
+    "aws-account": "414266450988",
+    "aws-region": "eu-north-1"
+  }
+}
