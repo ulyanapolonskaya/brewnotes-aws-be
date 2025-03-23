@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { deleteCoffeeBean } from '../services/coffee-bean-service';
+import { getCoffeeBeanById } from '../services/coffee-bean-service';
 import {
   generateErrorResponse,
   generateSuccessResponse,
@@ -16,12 +16,15 @@ export const handler = async (
       return generateErrorResponse(400, 'Coffee bean ID is required');
     }
 
-    await deleteCoffeeBean(beanId);
+    const coffeeBean = await getCoffeeBeanById(beanId);
 
-    // Return 204 No Content for successful deletion
-    return generateSuccessResponse(204, null);
+    if (!coffeeBean) {
+      return generateErrorResponse(404, 'Coffee bean not found');
+    }
+
+    return generateSuccessResponse(200, coffeeBean);
   } catch (error) {
-    console.error('Error deleting coffee bean:', error);
+    console.error('Error getting coffee bean:', error);
 
     return generateErrorResponse(500, 'Internal server error');
   }
