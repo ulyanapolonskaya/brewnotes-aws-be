@@ -4,7 +4,6 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as nodejsLambda from 'aws-cdk-lib/aws-lambda-nodejs';
-import * as path from 'path';
 
 export class BrewNotesStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -23,7 +22,7 @@ export class BrewNotesStack extends cdk.Stack {
       'GetCoffeeBeansFunction',
       {
         runtime: lambda.Runtime.NODEJS_18_X,
-        entry: path.join(__dirname, '../../src/lambda/get-coffee-beans.ts'),
+        entry: '../../src/lambda/get-coffee-beans.ts',
         handler: 'handler',
         environment: {
           COFFEE_BEANS_TABLE: coffeeBeansTable.tableName,
@@ -39,7 +38,7 @@ export class BrewNotesStack extends cdk.Stack {
       'CreateCoffeeBeanFunction',
       {
         runtime: lambda.Runtime.NODEJS_18_X,
-        entry: path.join(__dirname, '../../src/lambda/create-coffee-bean.ts'),
+        entry: '../../src/lambda/create-coffee-bean.ts',
         handler: 'handler',
         environment: {
           COFFEE_BEANS_TABLE: coffeeBeansTable.tableName,
@@ -55,7 +54,7 @@ export class BrewNotesStack extends cdk.Stack {
       'DeleteCoffeeBeanFunction',
       {
         runtime: lambda.Runtime.NODEJS_18_X,
-        entry: path.join(__dirname, '../../src/lambda/delete-coffee-bean.ts'),
+        entry: '../../src/lambda/delete-coffee-bean.ts',
         handler: 'handler',
         environment: {
           COFFEE_BEANS_TABLE: coffeeBeansTable.tableName,
