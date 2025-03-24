@@ -4,10 +4,14 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as nodejsLambda from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as path from 'path';
 
 export class BrewNotesStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    // Get the project root path
+    const projectRoot = path.join(__dirname, '..', '..');
 
     // DynamoDB table
     const coffeeBeansTable = new dynamodb.Table(this, 'CoffeeBeansTable', {
@@ -16,13 +20,13 @@ export class BrewNotesStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY, // Use RETAIN for production
     });
 
-    // Lambda functions
+    // Lambda functions - using absolute paths
     const getCoffeeBeansLambda = new nodejsLambda.NodejsFunction(
       this,
       'GetCoffeeBeansFunction',
       {
         runtime: lambda.Runtime.NODEJS_18_X,
-        entry: '../../src/lambda/get-coffee-beans.ts',
+        entry: path.join(projectRoot, 'src', 'lambda', 'get-coffee-beans.ts'),
         handler: 'handler',
         environment: {
           COFFEE_BEANS_TABLE: coffeeBeansTable.tableName,
@@ -38,7 +42,7 @@ export class BrewNotesStack extends cdk.Stack {
       'CreateCoffeeBeanFunction',
       {
         runtime: lambda.Runtime.NODEJS_18_X,
-        entry: '../../src/lambda/create-coffee-bean.ts',
+        entry: path.join(projectRoot, 'src', 'lambda', 'create-coffee-bean.ts'),
         handler: 'handler',
         environment: {
           COFFEE_BEANS_TABLE: coffeeBeansTable.tableName,
@@ -54,7 +58,7 @@ export class BrewNotesStack extends cdk.Stack {
       'DeleteCoffeeBeanFunction',
       {
         runtime: lambda.Runtime.NODEJS_18_X,
-        entry: '../../src/lambda/delete-coffee-bean.ts',
+        entry: path.join(projectRoot, 'src', 'lambda', 'delete-coffee-bean.ts'),
         handler: 'handler',
         environment: {
           COFFEE_BEANS_TABLE: coffeeBeansTable.tableName,
@@ -65,6 +69,7 @@ export class BrewNotesStack extends cdk.Stack {
       }
     );
 
+    // The rest of your code remains unchanged
     // Grant permissions
     coffeeBeansTable.grantReadData(getCoffeeBeansLambda);
     coffeeBeansTable.grantReadWriteData(createCoffeeBeanLambda);
