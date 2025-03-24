@@ -8,6 +8,7 @@ phases:
       - npm install
   build:
     commands:
+      - npm run build
       - cdk synth --quiet
 artifacts:
   base-directory: cdk.out
