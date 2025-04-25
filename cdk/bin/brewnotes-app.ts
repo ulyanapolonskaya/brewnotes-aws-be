@@ -16,7 +16,7 @@ new BrewNotesStack(app, 'BrewNotesStack', {
   /* Using explicit account and region instead of process.env */
   env: {
     account: account,
-    region: region,
+    region: region, 
   },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
