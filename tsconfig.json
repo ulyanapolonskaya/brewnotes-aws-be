@@ -20,7 +20,7 @@
     "outDir": "./dist",
     "typeRoots": ["./node_modules/@types"],
     "esModuleInterop": true,
-    "types": ["node"],
+    "types": ["jest", "node"],
     "moduleResolution": "node"
   },
   "exclude": ["node_modules", "cdk.out", "dist"]
